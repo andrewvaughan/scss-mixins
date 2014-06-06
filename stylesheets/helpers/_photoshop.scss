@@ -1,0 +1,38 @@
+// Photoshop Defaults
+$photoshop-global-light: 120deg !default;
+
+
+// ----------------------------------------------------------------------------
+// Converts Photoshop shadows to CSS
+@function photoshop-shadow($angle: $photoshop-global-light, $distance: 0, $spread: 0, $size: 0, $color: #000, $inner: false) {
+	
+	// If we don't have a unit for angle, assume degrees
+	@if unitless($angle) {
+		$angle: $angle * 1deg;
+	}
+	
+	// Convert degrees to radians
+	@if unit($angle) == 'deg' {
+		$angle: ((180 - ($angle / 1deg)) * pi() / 180);
+	}
+	
+	// Remove percentages, as they aren't very clean in SCSS
+	@if not(unitless($spread)) and unit($spread) == '%' {
+		$spread: $spread / 1%;
+	}
+	@else if $spread < 0 {
+		$spread: $spread * 100;
+	}
+	
+	// CSS shadow values
+	$css-h-shadow: round(cos($angle) * $distance);
+	$css-v-shadow: round(sin($angle) * $distance);
+	$css-spread: $size * ($spread / 100);
+	$css-blur: $size - $css-spread;
+	$css-inset: if($inner != false, 'inset', '');
+	
+	@return($css-h-shadow $css-v-shadow $css-blur $css-spread $color unquote($css-inset));
+	
+}
+
+
