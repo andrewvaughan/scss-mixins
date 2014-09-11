@@ -1,0 +1,25 @@
+// REMs with PX fallback mixin
+
+@mixin font-rem($size) {
+  font-size: 0px + $size;
+  font-size: $size / $doc-font-size +rem;
+}
+
+
+// word wrap
+
+@mixin word-wrap() {
+  word-break:     break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens:    auto;
+  hyphens:         auto;
+}
+
+
+// ellipsis
+
+@mixin ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
